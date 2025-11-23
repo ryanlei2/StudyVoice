@@ -1,4 +1,7 @@
-export default function LandingPage({ onTryNow }) {
+import { useNavigate } from "react-router-dom"
+
+export default function LandingPage() {
+  const navigate = useNavigate()
   return (
     <div className="landing-page">
       {/* Hero Section */}
@@ -13,7 +16,7 @@ export default function LandingPage({ onTryNow }) {
               Upload your study materials and practice explaining concepts out loud. 
               Get instant AI feedback to improve your understanding and retention.
             </p>
-            <button onClick={onTryNow} className="hero-btn">
+            <button onClick={() => navigate('/auth')} className="hero-btn">
               Try Now - It's Free
             </button>
           </div>

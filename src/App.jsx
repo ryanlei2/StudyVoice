@@ -1,13 +1,48 @@
 import { useState, useEffect } from "react"
+import { BrowserRouter as Router, Routes, Route, Navigate, Link, useNavigate } from "react-router-dom"
 import HomePage from "./pages/HomePage"
 import LandingPage from "./pages/LandingPage"
 import Auth from "./components/Auth"
 import "./App.css"
 
-export default function App() {
+function Navbar({ user, onLogout }) {
+  const navigate = useNavigate()
+
+  return (
+    <nav className="navbar">
+      <div className="navbar-container">
+        <div className="navbar-content">
+          <div className="navbar-brand">
+            <div className="navbar-logo">
+              <span>🎤</span>
+            </div>
+            <Link to={user ? "/home" : "/"} className="navbar-title navbar-title-clickable">
+              StudyVoice AI
+            </Link>
+          </div>
+          <div className="navbar-links">
+            {user ? (
+              <div className="flex items-center gap-3">
+                <span className="navbar-user">{user.email}</span>
+                <button onClick={onLogout} className="navbar-logout">
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <button onClick={() => navigate("/auth")} className="navbar-signin">
+                Sign In
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </nav>
+  )
+}
+
+function AppContent() {
   const [user, setUser] = useState(null)
-  const [showAuth, setShowAuth] = useState(false)
-  const [homePageRef, setHomePageRef] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -17,83 +52,37 @@ export default function App() {
     }
   }, [])
 
-  const handleUserChange = (userData) => {
-    setUser(userData)
-    if (userData) {
-      setShowAuth(false)
-    }
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('userEmail')
+    setUser(null)
+    navigate('/')
   }
 
-  const handleTryNow = () => {
-    setShowAuth(true)
-  }
-
-  const handleAuthLogin = (token, email) => {
+  const handleLogin = (token, email) => {
     const userData = { token, email }
     setUser(userData)
-    setShowAuth(false)
+    navigate('/home')
   }
 
   return (
     <div className="app-container">
-      {/* Navbar */}
-      <nav className="navbar">
-        <div className="navbar-container">
-          <div className="navbar-content">
-            <div className="navbar-brand">
-              <div className="navbar-logo">
-                <span>🎤</span>
-              </div>
-              <h1 
-                className="navbar-title navbar-title-clickable"
-                onClick={() => {
-                  setShowAuth(false)
-                  if (user && homePageRef) {
-                    homePageRef.goToTopics()
-                  }
-                }}
-              >
-                StudyVoice AI
-              </h1>
-            </div>
-            <div className="navbar-links">
-              {user ? (
-                <div className="flex items-center gap-3">
-                  <span className="navbar-user">{user.email}</span>
-                  <button 
-                    onClick={() => {
-                      localStorage.removeItem('token')
-                      localStorage.removeItem('userEmail')
-                      setUser(null)
-                      handleUserChange(null)
-                    }}
-                    className="navbar-logout"
-                  >
-                    Logout
-                  </button>
-                </div>
-              ) : (
-                <button onClick={handleTryNow} className="navbar-signin">
-                  Sign In
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Main Content */}
+      <Navbar user={user} onLogout={handleLogout} />
+      
       <main className={`main-content ${user ? 'with-padding' : ''}`}>
-        {user ? (
-          <HomePage onUserChange={handleUserChange} user={user} ref={setHomePageRef} />
-        ) : showAuth ? (
-          <Auth onLogin={handleAuthLogin} />
-        ) : (
-          <LandingPage onTryNow={handleTryNow} />
-        )}
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route 
+            path="/auth" 
+            element={user ? <Navigate to="/home" /> : <Auth onLogin={handleLogin} />} 
+          />
+          <Route 
+            path="/home" 
+            element={user ? <HomePage user={user} /> : <Navigate to="/auth" />} 
+          />
+        </Routes>
       </main>
       
-      {/* Footer */}
       <footer className="footer">
         <div className="footer-container">
           <div className="footer-content">
@@ -128,5 +117,13 @@ export default function App() {
         </div>
       </footer>
     </div>
+  )
+}
+
+export default function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
   )
 }
