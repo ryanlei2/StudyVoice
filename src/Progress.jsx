@@ -1,15 +1,29 @@
 export default function Progress({ score }) {
-  const color = score > 85 ? 'bg-green-500' : score > 60 ? 'bg-yellow-500' : 'bg-red-500';
-  
+  const getColor = () => {
+    if (score > 85) return "bg-green-500"
+    if (score > 60) return "bg-yellow-500"
+    return "bg-red-500"
+  }
+
+  const getLabel = () => {
+    if (score > 85) return "Excellent"
+    if (score > 60) return "Good"
+    if (score > 0) return "Keep Practicing"
+    return "Not Yet Evaluated"
+  }
+
   return (
-    <div>
-      <div className="w-full bg-gray-600 rounded-full h-4">
-        <div 
-          className={`${color} h-4 rounded-full transition-all`}
-          style={{ width: `${score}%` }}
+    <div className="progress-container">
+      <div className="progress-header">
+        <span className="progress-label">Mastery {score}%</span>
+      </div>
+      <div className="progress-track">
+        <div
+          className={`progress-fill ${getColor()}`}
+          style={{'--progress-width': `${Math.max(score, 2)}%`}}
         />
       </div>
-      <p className="text-sm mt-1 text-gray-400">{score}% Mastery</p>
+      <p className="progress-status">{getLabel()}</p>
     </div>
-  );
+  )
 }
