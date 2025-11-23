@@ -177,16 +177,26 @@ export default function VoiceInput({ onSubmit, loading }) {
   };
 
   return (
-    <div>
-      <div className="bg-gray-700 p-4 rounded mb-4 min-h-[150px] max-h-[300px] overflow-y-auto">
-        <p className="text-sm text-gray-400 mb-2">Your Explanation:</p>
-        <p className="whitespace-pre-wrap">
-          {transcript || 'Click the microphone to start speaking, or upload additional reference material...'}
-        </p>
+    <div className="w-full max-w-2xl space-y-6" style={{margin: '0 auto', textAlign: 'center'}}>
+      {/* Transcript Display */}
+      <div className="bg-gray-50 border border-gray-300 p-6 rounded-xl min-h-[200px] max-h-[400px] overflow-y-auto">
+        <div className="flex items-center mb-3">
+          <div className="w-3 h-3 bg-green-500 rounded-full mr-3 animate-pulse"></div>
+          <p className="text-lg font-medium text-gray-700">Your Explanation</p>
+        </div>
+        <div className="text-gray-900 leading-relaxed text-lg">
+          {transcript ? (
+            <p className="whitespace-pre-wrap">{transcript}</p>
+          ) : (
+            <p className="text-gray-500 italic text-lg">
+              Click the microphone to start speaking, or upload additional reference material...
+            </p>
+          )}
+        </div>
       </div>
 
       {/* File Upload Button */}
-      <div className="mb-4">
+      <div>
         <input
           ref={fileInputRef}
           type="file"
@@ -197,46 +207,80 @@ export default function VoiceInput({ onSubmit, loading }) {
         <button
           onClick={() => fileInputRef.current?.click()}
           disabled={isProcessing || loading}
-          className="w-full bg-purple-600 hover:bg-purple-700 p-3 rounded-lg disabled:opacity-50"
+          className="w-full bg-purple-600 hover:bg-purple-700 p-4 rounded-xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-lg text-white"
+          style={{background: 'linear-gradient(45deg, #8b5cf6, #ec4899)'}}
         >
-          {isProcessing ? '📄 Processing File...' : '📎 Add Reference Material (PDF, Image, Text)'}
+          {isProcessing ? (
+            <div className="flex items-center justify-center">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+              📄 Processing File...
+            </div>
+          ) : (
+            '📎 Add Reference Material (PDF, Image, Text)'
+          )}
         </button>
       </div>
 
-      <div className="flex gap-4">
+      {/* Voice Controls */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {!isListening ? (
           <button
             onClick={startListening}
             disabled={isProcessing || loading}
-            className="flex-1 bg-red-600 hover:bg-red-700 p-4 rounded-lg text-xl disabled:opacity-50"
+            className="bg-red-600 hover:bg-red-700 p-4 rounded-xl text-xl font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-lg flex items-center justify-center text-white"
+            style={{background: 'linear-gradient(45deg, #ef4444, #dc2626)'}}
           >
-            🎤 Start Speaking
+            <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+            </svg>
+            Start Speaking
           </button>
         ) : (
           <button
             onClick={stopListening}
-            className="flex-1 bg-yellow-600 hover:bg-yellow-700 p-4 rounded-lg text-xl"
+            className="bg-yellow-600 hover:bg-yellow-700 p-4 rounded-xl text-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center animate-pulse text-white"
+            style={{background: 'linear-gradient(45deg, #eab308, #f97316)'}}
           >
-            ⏸️ Stop Recording
+            <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Stop Recording
           </button>
         )}
 
         <button
           onClick={handleSubmit}
           disabled={!transcript || loading || isProcessing}
-          className="flex-1 bg-green-600 hover:bg-green-700 p-4 rounded-lg text-xl disabled:opacity-50"
+          className="bg-green-600 hover:bg-green-700 p-4 rounded-xl text-xl font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none shadow-lg flex items-center justify-center text-white"
+          style={{background: 'linear-gradient(45deg, #22c55e, #10b981)'}}
         >
-          {loading ? 'Evaluating...' : '✅ Submit'}
+          {loading ? (
+            <div className="flex items-center">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+              Evaluating...
+            </div>
+          ) : (
+            <>
+              <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              Submit
+            </>
+          )}
         </button>
       </div>
 
+      {/* Clear Button */}
       {transcript && (
         <button
           onClick={handleClear}
           disabled={loading || isProcessing}
-          className="w-full mt-2 bg-gray-600 hover:bg-gray-500 p-2 rounded-lg text-sm disabled:opacity-50"
+          className="w-full bg-gray-200 hover:bg-gray-300 border border-gray-300 p-3 rounded-xl text-lg font-medium transition-all duration-300 disabled:opacity-50 flex items-center justify-center text-gray-900"
         >
-          🗑️ Clear Text
+          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+          Clear Text
         </button>
       )}
     </div>

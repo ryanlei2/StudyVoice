@@ -237,78 +237,118 @@ Be encouraging but honest. Point out misconceptions and missing concepts.`
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
-      <h1 className="text-4xl font-bold mb-8 text-center">🎤 StudyVoice AI</h1>
+    <div className="min-h-screen bg-white text-gray-900">
+      <div className="absolute inset-0 flex items-center justify-center p-8">
+        <div className="w-full max-w-6xl">
+          {/* Upload Section */}
+          {topics.length === 0 && (
+            <div className="max-w-lg mx-auto" style={{textAlign: 'center'}}>
+            <div className="bg-white border border-gray-300 p-8 rounded-2xl shadow-lg" style={{margin: '0 auto'}}>
+              <div className="text-center mb-6" style={{textAlign: 'center'}}>
+                <h2 className="text-4xl font-semibold mb-2 text-gray-900" style={{fontFamily: 'system-ui, -apple-system, sans-serif'}}>Upload Study Material</h2>
+                <p className="text-xl text-gray-600" style={{fontFamily: 'system-ui, -apple-system, sans-serif'}}>
+                  Supports PDF, Images (PNG, JPG), or Text files
+                </p>
+              </div>
+              
+              <div className="relative" style={{textAlign: 'center'}}>
+                <input 
+                  type="file" 
+                  accept=".txt,.pdf,.png,.jpg,.jpeg,.gif,.webp"
+                  onChange={handleUpload}
+                  className="w-full p-4 bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-blue-400 hover:bg-gray-100 transition-all duration-300"
+                />
+              </div>
+              
+              {loading && (
+                <div className="mt-6 text-center" style={{textAlign: 'center'}}>
+                  <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-3"></div>
+                    <span className="text-blue-600 font-medium text-lg">Processing file...</span>
+                  </div>
+                  <p className="text-lg text-gray-500 mt-3">This may take a moment for PDFs and images</p>
+                </div>
+              )}
+            </div>
+            </div>
+          )}
 
-      {/* Upload Section */}
-      {topics.length === 0 && (
-        <div className="max-w-md mx-auto bg-gray-800 p-8 rounded-lg">
-          <h2 className="text-xl mb-4">Upload Study Material</h2>
-          <p className="text-sm text-gray-400 mb-4">
-            Supports: PDF, Images (PNG, JPG), or Text files
-          </p>
-          <input 
-            type="file" 
-            accept=".txt,.pdf,.png,.jpg,.jpeg,.gif,.webp"
-            onChange={handleUpload}
-            className="w-full p-2 bg-gray-700 rounded cursor-pointer"
-          />
-          {loading && (
-            <div className="mt-4">
-              <p className="text-blue-400 animate-pulse">Processing file...</p>
-              <p className="text-sm text-gray-400 mt-2">This may take a moment for PDFs and images</p>
+          {/* Topics Grid */}
+          {topics.length > 0 && !currentTopic && (
+            <div className="w-full">
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+              <div>
+                <h2 className="text-2xl font-semibold text-blue-600" style={{fontFamily: 'system-ui, -apple-system, sans-serif'}}>
+                  Select a Topic to Study
+                </h2>
+                <p className="text-gray-600 mt-1" style={{fontFamily: 'system-ui, -apple-system, sans-serif'}}>Click on any topic to start your voice-based learning session</p>
+              </div>
+              <button
+                onClick={() => {
+                  setTopics([]);
+                  localStorage.removeItem('topics');
+                }}
+                className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg text-white"
+                style={{background: 'linear-gradient(45deg, #ef4444, #ec4899)'}}
+              >
+                📁 Upload New File
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {topics.map((topic, idx) => (
+                <div 
+                  key={idx}
+                  onClick={() => setCurrentTopic(topic)}
+                  className="group bg-white border border-gray-300 p-6 rounded-2xl cursor-pointer hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                >
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-xl font-bold text-white group-hover:text-blue-300 transition-colors">
+                      {topic.name}
+                    </h3>
+                    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                  <p className="text-gray-300 mb-4 text-sm leading-relaxed">{topic.description}</p>
+                  <Progress score={topic.mastery} />
+                </div>
+              ))}
+            </div>
+            </div>
+          )}
+
+          {/* Study Session */}
+          {currentTopic && (
+            <div className="max-w-3xl mx-auto">
+            <div className="bg-white border border-gray-300 p-8 rounded-2xl shadow-lg">
+              <button 
+                onClick={() => setCurrentTopic(null)}
+                className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-6 transition-colors group"
+              >
+                <svg className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                Back to Topics
+              </button>
+              
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-semibold mb-2 text-blue-600" style={{fontFamily: 'system-ui, -apple-system, sans-serif'}}>
+                  {currentTopic.name}
+                </h2>
+                <p className="text-gray-600 leading-relaxed max-w-2xl mx-auto" style={{fontFamily: 'system-ui, -apple-system, sans-serif'}}>
+                  {currentTopic.description}
+                </p>
+              </div>
+              
+              <VoiceInput onSubmit={handleEvaluation} loading={loading} />
+            </div>
             </div>
           )}
         </div>
-      )}
-
-      {/* Topics Grid */}
-      {topics.length > 0 && !currentTopic && (
-        <div className="max-w-4xl mx-auto">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl">Select a Topic to Study:</h2>
-            <button
-              onClick={() => {
-                setTopics([]);
-                localStorage.removeItem('topics');
-              }}
-              className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-sm"
-            >
-              Upload New File
-            </button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {topics.map((topic, idx) => (
-              <div 
-                key={idx}
-                onClick={() => setCurrentTopic(topic)}
-                className="bg-gray-800 p-6 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors"
-              >
-                <h3 className="text-lg font-bold mb-2">{topic.name}</h3>
-                <p className="text-sm text-gray-400 mb-3">{topic.description}</p>
-                <Progress score={topic.mastery} />
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Study Session */}
-      {currentTopic && (
-        <div className="max-w-2xl mx-auto bg-gray-800 p-8 rounded-lg">
-          <button 
-            onClick={() => setCurrentTopic(null)}
-            className="mb-4 text-blue-400 hover:text-blue-300"
-          >
-            ← Back to Topics
-          </button>
-          
-          <h2 className="text-2xl mb-4">{currentTopic.name}</h2>
-          <p className="mb-6 text-gray-400">{currentTopic.description}</p>
-          
-          <VoiceInput onSubmit={handleEvaluation} loading={loading} />
-        </div>
-      )}
+      </div>
     </div>
   );
 }
