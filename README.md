@@ -57,7 +57,7 @@ An AI-powered learning platform that helps students master concepts through voic
 3. **Environment Setup**
    Create `.env.local` in the root directory:
    ```env
-   VITE_CLAUDE_API_KEY=your_claude_api_key_here
+   CLAUDE_API_KEY=your_claude_api_key_here
    ```
 
 4. **Start the application**
