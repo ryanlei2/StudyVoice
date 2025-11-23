@@ -1,0 +1,90 @@
+Computer Science Fundamentals Study Guide
+
+1. Data Structures and Algorithms
+
+Arrays and Lists
+Arrays are fundamental data structures that store elements in contiguous memory locations. They provide O(1) access time but O(n) insertion and deletion in the worst case. Dynamic arrays like Python lists or JavaScript arrays can resize automatically. Understanding array operations, indexing, and memory layout is crucial for efficient programming.
+
+Linked Lists
+Linked lists consist of nodes containing data and pointers to the next node. They offer O(1) insertion and deletion at known positions but O(n) search time. Variants include singly linked, doubly linked, and circular linked lists. They're useful when frequent insertions and deletions are needed.
+
+Stacks and Queues
+Stacks follow Last-In-First-Out (LIFO) principle with push and pop operations. They're used in function calls, expression evaluation, and backtracking algorithms. Queues follow First-In-First-Out (FIFO) principle with enqueue and dequeue operations. They're essential for breadth-first search and task scheduling.
+
+Trees and Binary Search Trees
+Trees are hierarchical data structures with nodes connected by edges. Binary search trees maintain sorted order with left children smaller than parent and right children larger. They provide O(log n) average case operations for search, insertion, and deletion. Tree traversals include in-order, pre-order, and post-order.
+
+Hash Tables
+Hash tables use hash functions to map keys to array indices, providing O(1) average case operations. Collision resolution techniques include chaining and open addressing. Load factor affects performance, and good hash functions distribute keys uniformly. They're fundamental to dictionaries, sets, and database indexing.
+
+2. Object-Oriented Programming
+
+Classes and Objects
+Classes are blueprints that define attributes and methods for objects. Objects are instances of classes with their own state and behavior. Encapsulation bundles data and methods together, hiding internal implementation details. Constructors initialize object state, while destructors clean up resources.
+
+Inheritance and Polymorphism
+Inheritance allows classes to inherit properties and methods from parent classes, promoting code reuse. Polymorphism enables objects of different types to be treated uniformly through common interfaces. Method overriding allows subclasses to provide specific implementations of parent methods.
+
+Abstraction and Encapsulation
+Abstraction hides complex implementation details behind simple interfaces. Abstract classes and interfaces define contracts that concrete classes must implement. Encapsulation protects object state by controlling access through public, private, and protected modifiers.
+
+Design Patterns
+Design patterns are reusable solutions to common programming problems. Creational patterns like Singleton and Factory manage object creation. Structural patterns like Adapter and Decorator organize class relationships. Behavioral patterns like Observer and Strategy define object interactions.
+
+3. Database Systems
+
+Relational Database Model
+Relational databases organize data in tables with rows and columns. Primary keys uniquely identify records, while foreign keys establish relationships between tables. Normalization reduces data redundancy and improves consistency. ACID properties ensure transaction reliability.
+
+SQL and Query Optimization
+SQL (Structured Query Language) is used to manipulate relational databases. SELECT statements retrieve data with WHERE clauses for filtering and JOIN operations for combining tables. Indexes improve query performance by creating fast lookup structures. Query optimization involves analyzing execution plans and choosing efficient algorithms.
+
+NoSQL Databases
+NoSQL databases handle unstructured data and scale horizontally. Document databases like MongoDB store JSON-like documents. Key-value stores like Redis provide fast caching. Column-family databases like Cassandra handle time-series data. Graph databases like Neo4j model complex relationships.
+
+Database Transactions
+Transactions are sequences of database operations that must be executed atomically. ACID properties ensure Atomicity, Consistency, Isolation, and Durability. Concurrency control mechanisms like locking and timestamping prevent conflicts. Transaction logs enable recovery from failures.
+
+4. Computer Networks
+
+Network Protocols
+Network protocols define rules for communication between devices. TCP provides reliable, ordered data delivery with error checking and flow control. UDP offers faster, connectionless communication without guarantees. HTTP/HTTPS enable web communication, while DNS resolves domain names to IP addresses.
+
+OSI Model and TCP/IP Stack
+The OSI model defines seven layers of network communication from physical to application. The TCP/IP stack simplifies this to four layers: Network Access, Internet, Transport, and Application. Each layer provides services to the layer above while using services from the layer below.
+
+Network Security
+Network security protects data during transmission and storage. Encryption algorithms like AES secure data confidentiality. Digital signatures ensure data integrity and authentication. Firewalls filter network traffic, while VPNs create secure tunnels over public networks.
+
+Routing and Switching
+Routers forward packets between different networks using routing tables and protocols like OSPF and BGP. Switches connect devices within the same network using MAC addresses. Network topologies like star, mesh, and ring affect performance and reliability.
+
+5. Operating Systems
+
+Process Management
+Operating systems manage processes through scheduling algorithms like round-robin, priority-based, and shortest job first. Process states include ready, running, waiting, and terminated. Context switching saves and restores process state. Inter-process communication uses pipes, message queues, and shared memory.
+
+Memory Management
+Memory management allocates and deallocates memory for processes. Virtual memory uses paging and segmentation to provide larger address spaces than physical memory. Memory allocation strategies include first-fit, best-fit, and worst-fit. Garbage collection automatically reclaims unused memory.
+
+File Systems
+File systems organize and manage data storage on disks. Directory structures provide hierarchical organization. File allocation methods include contiguous, linked, and indexed allocation. Journaling file systems maintain consistency during crashes by logging changes.
+
+Concurrency and Synchronization
+Concurrency allows multiple processes or threads to execute simultaneously. Race conditions occur when shared resources are accessed without proper synchronization. Synchronization primitives like mutexes, semaphores, and monitors coordinate access to shared resources. Deadlock prevention and detection ensure system progress.
+
+6. Software Engineering
+
+Software Development Life Cycle
+The SDLC defines phases for software development including requirements analysis, design, implementation, testing, and maintenance. Waterfall model follows sequential phases, while Agile methodologies use iterative development with frequent feedback. DevOps integrates development and operations for continuous delivery.
+
+Version Control Systems
+Version control systems track changes to source code over time. Git is a distributed system that allows branching, merging, and collaboration. Repositories store project history, while commits represent snapshots of changes. Branching strategies like Git Flow organize feature development and releases.
+
+Testing and Quality Assurance
+Software testing verifies that programs meet requirements and function correctly. Unit tests verify individual components, integration tests check component interactions, and system tests validate complete functionality. Test-driven development writes tests before implementation. Code reviews and static analysis improve code quality.
+
+Software Architecture
+Software architecture defines the high-level structure of systems. Architectural patterns like MVC separate concerns, while microservices decompose applications into independent services. Design principles like SOLID guide object-oriented design. Documentation and modeling tools communicate architectural decisions.
+
+This study guide covers fundamental computer science concepts across multiple domains. Each topic builds upon previous knowledge and connects to practical applications in software development, system design, and technology implementation.

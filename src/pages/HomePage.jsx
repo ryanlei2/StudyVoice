@@ -190,11 +190,11 @@ const HomePage = forwardRef(({ onUserChange, user: parentUser }, ref) => {
           messages: [
             {
               role: "user",
-              content: `You must respond with ONLY valid JSON. Extract 3-5 key topics from this text and return them as a JSON array.
+              content: `You must respond with ONLY valid JSON. Extract exactly 5 key topics from this text and return them as a JSON array. If the text has fewer distinct topics, create subtopics or related concepts to reach 5 topics.
 
 Format: [{"name": "Topic Name", "description": "Brief description"}]
 
-Do not include any other text, explanations, or markdown formatting. Only return the JSON array.
+Do not include any other text, explanations, or markdown formatting. Only return the JSON array with exactly 5 topics.
 
 Text: ${extractedText.slice(0, 10000)}`,
             },
